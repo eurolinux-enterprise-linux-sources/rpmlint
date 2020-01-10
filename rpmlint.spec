@@ -1,6 +1,6 @@
 Name:           rpmlint
 Version:        0.94
-Release:        2%{?dist}
+Release:        3.1%{?dist}
 Summary:        Tool for checking common errors in RPM packages
 
 Group:          Development/Tools
@@ -11,6 +11,8 @@ Source1:        %{name}.config
 Source2:        %{name}-CHANGES.package.old
 Source3:        %{name}-etc.config
 Source4:        RhelCheck.py
+Patch1:         rpmlint-0.94-rhbz_663082.patch
+Patch2:         rpmlint-0.94-rhbz_958038.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -40,7 +42,8 @@ cp -p config config.example
 install -pm 644 %{SOURCE2} CHANGES.package.old
 install -pm 644 %{SOURCE3} config
 install -pm 644 %{SOURCE4} RhelCheck.py
-
+%patch1 -p1 -b .rhbz_663082
+%patch2 -p1 -b .rhbz_958038
 
 %build
 make COMPILE_PYC=1
@@ -75,6 +78,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun  6 2013 Thomas Woerner <twoerner@redhat.com> - 0.94-3.1
+- fixed rpmlint crash in automated test environment (rhbz#958038)
+
+* Wed May 22 2013 Thomas Woerner <twoerner@redhat.com> - 0.94-3
+- fixed rpmlint reports missing-lsb-keyword Default-Stop (rhbz#663082)
+
 * Tue Jun 29 2010 Thomas Woerner <twoerner@redhat.com> - 0.94-2
 - added check for fedora and rhel conditionals (rhbz#572158)
 

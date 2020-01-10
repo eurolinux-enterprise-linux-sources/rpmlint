@@ -1,0 +1,15 @@
+diff -up rpmlint-0.94/Filter.py.rhbz_958038 rpmlint-0.94/Filter.py
+--- rpmlint-0.94/Filter.py.rhbz_958038	2013-06-06 22:25:40.574568681 +0200
++++ rpmlint-0.94/Filter.py	2013-06-06 22:25:42.531571430 +0200
+@@ -60,7 +60,10 @@ def _print(msgtype, pkg, reason, details
+             if threshold >= 0:
+                 _diagnostic.append(s + "\n")
+             else:
+-                print (s)
++                try:
++                    print (s)
++                except:
++                    print (s.encode('unicode_escape'))
+                 if Config.info:
+                     printDescriptions(reason)
+             return True

@@ -1,0 +1,12 @@
+diff -up rpmlint-0.94/InitScriptCheck.py.rhbz_663082 rpmlint-0.94/InitScriptCheck.py
+--- rpmlint-0.94/InitScriptCheck.py.rhbz_663082	2013-05-22 14:37:42.499090695 +0200
++++ rpmlint-0.94/InitScriptCheck.py	2013-05-22 14:38:19.454203014 +0200
+@@ -34,7 +34,7 @@ LSB_KEYWORDS = ('Provides', 'Required-St
+                 'Should-Stop', 'Default-Start', 'Default-Stop',
+                 'Short-Description', 'Description')
+ RECOMMENDED_LSB_KEYWORDS = ('Provides', 'Required-Start', 'Required-Stop',
+-                            'Default-Stop', 'Short-Description')
++                            'Short-Description')
+ 
+ class InitScriptCheck(AbstractCheck.AbstractCheck):
+ 
