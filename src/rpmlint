@@ -1,0 +1,18 @@
+#!/bin/sh
+#############################################################################
+# File          : rpmlint
+# Package       : rpmlint
+# Author        : Frederic Lepied
+# Created on    : Mon Sep 27 19:20:18 1999
+# Version       : $Id: rpmlint 1110 2006-04-01 08:09:17Z scop $
+# Purpose       : main entry point: process options, load the checks and run
+#                 the checks.
+#############################################################################
+
+PYTHONPATH=${PYTHONPATH=.}
+
+PYTHONPATH=${PYTHONPATH}:/usr/share/rpmlint
+
+exec python -tt -u -O /usr/share/rpmlint/rpmlint.py $*
+
+# rpmlint ends here
