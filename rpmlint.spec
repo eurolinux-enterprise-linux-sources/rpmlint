@@ -1,6 +1,6 @@
 Name:           rpmlint
 Version:        1.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        Tool for checking common errors in RPM packages
 
 Group:          Development/Tools
@@ -14,15 +14,13 @@ Source3:        %{name}-etc.config
 Source4:        %{name}.config.el4
 # EL-5 specific config
 Source5:        %{name}.config.el5
+Patch1:         rpmlint-1.5-rhbz_663082.patch
 
 BuildArch:      noarch
 BuildRequires:  python >= 2.4
 BuildRequires:  rpm-python >= 4.4
 BuildRequires:  sed >= 3.95
-%if ! 0%{?rhel}
-# no bash-completion for RHEL
 BuildRequires:  bash-completion
-%endif
 Requires:       rpm-python >= 4.4.2.2
 Requires:       python >= 2.4
 Requires:	perl
@@ -53,6 +51,7 @@ sed -i -e /MenuCheck/d Config.py
 cp -p config config.example
 install -pm 644 %{SOURCE2} CHANGES.package.old
 install -pm 644 %{SOURCE3} config
+%patch1 -p1 -b .rhbz_663082
 
 
 %build
@@ -71,9 +70,7 @@ pushd $RPM_BUILD_ROOT%{_bindir}
 ln -s rpmlint el4-rpmlint
 ln -s rpmlint el5-rpmlint
 popd
-%if 0%{?rhel}
 rm -rf %{buildroot}%{_sysconfdir}/bash_completion.d/
-%endif
 
 
 %check
@@ -83,12 +80,10 @@ make check
 %files
 %doc COPYING ChangeLog CHANGES.package.old README config.example
 %config(noreplace) %{_sysconfdir}/rpmlint/
-%if 0%{?fedora} >= 17
+%if 0%{?fedora} >= 17 || 0%{?rhel}
 %{_datadir}/bash-completion/
 %else
-%if ! 0%{?rhel}
 %{_sysconfdir}/bash_completion.d/
-%endif
 %endif
 %{_bindir}/rpmdiff
 %{_bindir}/el*-rpmlint
@@ -99,6 +94,13 @@ make check
 
 
 %changelog
+* Tue Jan 14 2014 Thomas Woerner <twoerner@redhat.com> - 1.5-4
+- enable bash-completion again, fixes (RHBZ#495529)
+- fixed rpmlint reports missing-lsb-keyword Default-Stop (rhbz#976341)
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.5-3
+- Mass rebuild 2013-12-27
+
 * Tue Aug  6 2013 Thomas Woerner <twoerner@redhat.com> - 1.5-2
 - Fixed URL and Source0, now using sourceforge.net
 
