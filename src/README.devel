@@ -1,0 +1,15 @@
+The latest development version can be retrieved from anonymous Git:
+
+$ git clone git://git.code.sf.net/p/rpmlint/code rpmlint
+
+To run rpmlint from the working tree or in place from an unpacked tarball:
+
+$ ./rpmlint -C . <rpms>
+
+...and to run only a single check, for example to test only FHSCheck:
+
+$ ./rpmlint -C . -c FHSCheck <rpms>
+
+For profiling, use something like:
+
+$ python -O -u -m cProfile -s cumulative rpmlint -C . [...]
